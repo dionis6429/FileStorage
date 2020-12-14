@@ -3,37 +3,38 @@ using System.IO;
 using System.Reflection;
 
 namespace FileStorage
-{   
+{
     class Program
     {
         static void Main(string[] args)
         {
 
             #region Authentication
-            do
+
+            bool isAuthenticated = false;
+
+            while (true && !isAuthenticated)
             {
                 Console.WriteLine("Введите логин: ");
                 var login = Console.ReadLine();
+
                 Console.WriteLine("Введите пароль: ");
                 var password = Console.ReadLine();
-                switch (Authenticator.Authenticate(login, password))
+
+                if (Authenticator.Authenticate(login, password))
                 {
-                    case false:
-                        Console.WriteLine("Неверный логин или пароль. Повторите попытку.");
-                        Console.WriteLine();
-                        break;
-                    case true:
-                        Console.WriteLine("Регистрация прошла успешно");
-                        Console.WriteLine();
-                        break;
+                    isAuthenticated = true;
+                    Console.WriteLine("Регистрация прошла успешно");
+                }
+                else
+                {
+                    Console.WriteLine("Неверный логин или пароль. Повторите попытку.");
                 }
             }
-            while
-            (true);
             #endregion
 
 
-            //string path = @"c:\Users\s.taras\source\repos\FileStorage\App\FileStorage\FileStorage\StorageFile.txt";
+            string path = @"c:\Users\s.taras\source\repos\FileStorage\App\FileStorage\FileStorage\StorageFile.txt";
 
             //FileInfo fileInf = new FileInfo(path);
             //if (fileInf.Exists)
@@ -44,7 +45,7 @@ namespace FileStorage
             //{
             //    Console.WriteLine($"Файл {fileInf.Name}, представляющий хранилище, по указанному пути отсутствует");
             //}
-           
+
 
             //Type type = Type.GetType("FileStorage.StorageFile");
             //var members = type.GetMembers();
