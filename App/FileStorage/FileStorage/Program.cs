@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FileStorage
@@ -34,7 +33,6 @@ namespace FileStorage
             //}
             #endregion
 
-
             string path = @"c:\Users\s.taras\source\repos\FileStorage\App\FileStorage\FileStorage\Meta.txt";
 
             FileInfo fileInf = new FileInfo(path);
@@ -47,28 +45,60 @@ namespace FileStorage
                 Console.WriteLine($"Файл {fileInf.Name}, представляющий хранилище, по указанному пути отсутствует");
             }
 
-            //объект для сериализации
-            StorageFile storageFile = new StorageFile();
-            Console.WriteLine("Объект создан");
+            do
+            {
+                Console.WriteLine($"Введите команду из списка:");
+                Console.WriteLine("user_info");
+                Console.WriteLine("file_upload <path to file>");
+                Console.WriteLine("file_download <file name> <destination path>");
+                Console.WriteLine("file_move <source file name> <destination file name>");
+                Console.WriteLine("file_remove <file name>");
+                Console.WriteLine("file_info <file name>");
+                Console.WriteLine();
+                string input = Console.ReadLine();
+                CommandsManager.Manager(input);
+            }
+            while (true);
 
-            //создаем объект бинари форматтер
+            //CommandsManager cm = new CommandsManager();
+
+            StorageFile sf = new StorageFile(Path.GetFileName(param1));
+            Stream stream = File.Open("FileStorage.dat", FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, sf);
+            stream.Close();
+            sf = null;
+            stream = File.Open("FileStorage.dat", FileMode.Open);
+            formatter = new BinaryFormatter();
+            sf = (StorageFile)formatter.Deserialize(stream);
+            stream.Close();
+            Console.WriteLine(sf.ToString());
 
-            // получаем поток, куда будем записывать сериализованный поток
-            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, storageFile);
-                Console.WriteLine("Объект сериализован");
-            }
 
-            //десириализация из файла Meta.txt
-            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-            {
-                StorageFile newStorageFile = (StorageFile)formatter.Deserialize(fs);
-                Console.WriteLine("Объект десериализован");
 
-            }
+            #region Serialization
+            ////объект для сериализации
+            //StorageFile storageFile = new StorageFile();
+            //Console.WriteLine("Объект создан");
 
+            ////создаем объект бинари форматтер
+            //BinaryFormatter formatter = new BinaryFormatter();
+
+            //// получаем поток, куда будем записывать сериализованный поток
+            //using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            //{
+            //    formatter.Serialize(fs, storageFile);
+            //    Console.WriteLine("Объект сериализован");
+            //}
+
+            ////десириализация из файла Meta.txt
+            //using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            //{
+            //    StorageFile newStorageFile = (StorageFile)formatter.Deserialize(fs);
+            //    Console.WriteLine("Объект десериализован");
+
+            //}
+            #endregion
             //Type type = Type.GetType("FileStorage.StorageFile");
             //var members = type.GetMembers();
             //foreach (MemberInfo memberInfo in members)
