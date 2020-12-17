@@ -42,26 +42,20 @@ namespace FileStorage
             //}
             #endregion
 
-            FileInfo fileInf = new FileInfo(path);
-            if (fileInf.Exists)
-            {
-                Console.WriteLine($"Файл {fileInf.Name}, представляющий хранилище, обнаружен");
-            }
-            else
-            {
-                Console.WriteLine($"Файл {fileInf.Name}, представляющий хранилище, по указанному пути отсутствует");
-            }
 
-            do
-            {
-                var commandManager = new CommandsManager();
-                commandManager.ShowCommands();
-                string input = Console.ReadLine();
-                var command = commandManager.ParseCommand(input);
-            }
-            while (true);
+            var commandManager = new CommandsManager();
+            commandManager.ShowCommands();
+            string input = Console.ReadLine();
+            var command = commandManager.ParseCommand(input);
 
-            //CommandsManager cm = new CommandsManager();
+
+            var metaFileStorageManager = new MetaFileStorageManager(command);
+            metaFileStorageManager.RunCommand();
+
+            var fileStorageManager = new MetaFileStorageManager(command);
+            fileStorageManager.RunCommand();
+
+
 
             //TODO: handle param1 instead of string.empty
             StorageFile sf = new StorageFile(Path.GetFileName(string.Empty));

@@ -4,12 +4,17 @@ using System.Text;
 
 namespace FileStorage
 {
-    public class MetaFileStorage
+    public class MetaFileStorageManager
     {
-        // Work with meta file information
-        //CRUD
+        public MetaFileStorageManager(Command command)
+        {
+            Command = command;
+        }
+        public Command Command { get; set; }
 
-
-
+        public void RunCommand()
+        { 
+        
+        }
     }
 }

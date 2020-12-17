@@ -6,6 +6,15 @@ namespace FileStorage
 {
     public class FileStorageManager
     {
-        // Manages phisical files
+        public FileStorageManager(Command command)
+        {
+            Command = command;
+        }
+        public Command Command { get; set; }
+
+        public void RunCommand()
+        {
+
+        }
     }
 }
