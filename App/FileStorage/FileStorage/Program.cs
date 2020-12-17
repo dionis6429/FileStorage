@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Microsoft.Extensions.Configuration;
 
 namespace FileStorage
 {
@@ -8,6 +9,12 @@ namespace FileStorage
     {       
         static void Main(string[] args)
         {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+                .AddJsonFile("appsettings.json", false)
+                .Build();
+
+            var fileConfig = config.GetSection("MetaFileInfo").Get<MetaFileInfo>();
 
             #region Authentication
 
@@ -62,7 +69,8 @@ namespace FileStorage
 
             //CommandsManager cm = new CommandsManager();
 
-            StorageFile sf = new StorageFile(Path.GetFileName(param1));
+            //TODO: handle param1 instead of string.empty
+            StorageFile sf = new StorageFile(Path.GetFileName(string.Empty));
             Stream stream = File.Open("FileStorage.dat", FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(stream, sf);
