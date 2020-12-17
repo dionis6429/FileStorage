@@ -55,15 +55,15 @@ namespace FileStorage
             string input = Console.ReadLine();
             var command = commandManager.ParseCommand(input);
 
-            if (command != null && command.FileOperation == FileOperation.user_info)
-            { 
-            
-            }
+            //if (command != null && command.FileOperation == FileOperation.user_info)
+            //{
+
+            //}
 
             var metaFileStorageManager = new MetaFileStorageManager(command);
             metaFileStorageManager.RunCommand();
 
-            var fileStorageManager = new MetaFileStorageManager(command);
+            var fileStorageManager = new FileStorageManager(command);
             fileStorageManager.RunCommand();
 
             // END

@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
 
 namespace FileStorage
 {
@@ -16,31 +17,37 @@ namespace FileStorage
         {
             switch (Command.FileOperation)
             {
-                case FileOperation.file_download:
-                    FileDownload();
+                case FileOperation.file_upload:
+                    FileUpload();
                     break;
                 case FileOperation.file_move:
-                    FileDownload();
+                    FileMove();
                     break;
                 default:
                     break;
             }
         }
 
-        private void FileDownload()
+        private void FileUpload()
         {
             //TODO: handle param1 instead of string.empty
-            StorageFile sf = new StorageFile(Path.GetFileName(string.Empty));
-            Stream stream = File.Open("FileStorage.dat", FileMode.Create);
+            
+            StorageFile sf = new StorageFile(Command.From);
+            Stream stream = File.Open("c:\\Users\\s.taras\\source\\repos\\FileStorage\\App\\FileStorage\\FileStorage\\Meta.txt", FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(stream, sf);
             stream.Close();
-            sf = null;
-            stream = File.Open("FileStorage.dat", FileMode.Open);
+            //sf = null;
+            stream = File.Open("c:\\Users\\s.taras\\source\\repos\\FileStorage\\App\\FileStorage\\FileStorage\\Meta.txt", FileMode.Open);
             formatter = new BinaryFormatter();
             sf = (StorageFile)formatter.Deserialize(stream);
             stream.Close();
             Console.WriteLine(sf.ToString());
         }
+        private void FileMove()
+        {
+
+        }
+
     }
 }

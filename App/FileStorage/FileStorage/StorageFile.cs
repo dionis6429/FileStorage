@@ -1,30 +1,32 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace FileStorage
 {
-    [Serializable]
+    [Serializable()]
     public class StorageFile : ISerializable
-    {        
+    {
+        public string Location { get; set; }
         public string Name { get; set; }
         public string Extension { get; set; }
         public int Size { get; private set; }
         public DateTime CreationDate { get; set; }
         public int DownloadsNunber { get; private set; }
 
-        public StorageFile()
+       public StorageFile(string location)
         {
-
-        }
-        public StorageFile(string name)
-        {
-            Name = name;
-            //Extension = extention;
+            Location = location;
+            Name = Path.GetFileName(location);
+            Extension = Path.GetExtension(location);
+            CreationDate = File.GetCreationTime(location);
+            Size = 0;
+            DownloadsNunber = 0;
         }
         public override string ToString()
         {
-            return Name; 
+            return string.Format("Name: {0} Extension: {1} Size: {2} CreationDate: {3} DownloadsNumber: {4}", Name, Extension, Size, CreationDate, DownloadsNunber); 
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
