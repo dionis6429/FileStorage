@@ -35,12 +35,38 @@ namespace FileStorage
         //}
         //public static void Manager(FileOperation fileOperation, string Param1, string Param2)
 
+        public void ShowCommands()
+        {
+            Console.WriteLine($"Введите команду из списка:");
+            Console.WriteLine("user_info");
+            Console.WriteLine("file_upload <path to file>");
+            Console.WriteLine("file_download <file name> <destination path>");
+            Console.WriteLine("file_move <source file name> <destination file name>");
+            Console.WriteLine("file_remove <file name>");
+            Console.WriteLine("file_info <file name>");
+            Console.WriteLine();
+        }
 
-        public static void Manager(string input)
-        {           
+        public Command ParseCommand(string input)
+        {
+            var vs = input.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+            var textCommand = vs[0];
+            var fromPath = vs.Length > 1 ? vs[1] : string.Empty;
+            var toPath = vs.Length > 2 ? vs[2] : string.Empty;
+            Command command = null;
+            if (Enum.TryParse(textCommand, out FileOperation fileOperation))
+            {
+                command = new Command(fileOperation, fromPath, toPath);
+            }
+            return command;
+        }
+
+
+        public  void Manager(string input)
+        {
             string[] vs = input.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
             string param1 = vs[1];
-            
+
             FileInfo fi = new FileInfo(param1);
             long size = fi.Length;
 
@@ -62,19 +88,19 @@ namespace FileStorage
 
                 case 2:
                     {
-                        
+
                         switch (vs[0])
                         {
-                            
+
                             case "file_remove":
                                 //TODO: реализовать удаление файла file-name из хранилища. Пользовательская корзина не предусмотрена, поэтому удаление осуществляется раз и навсегда.
-                                
-                                                                
+
+
                                 Console.WriteLine($"The file {param1} has been removed");
                                 break;
 
                             case "file_info":
-                            
+
 
                                 Console.WriteLine($"Name: {param1}");
                                 Console.WriteLine($"Extension: {Path.GetExtension(param1)}");
@@ -85,7 +111,7 @@ namespace FileStorage
 
                             case "file_upload":
                                 //TODO: реализовать загрузку файла
-                                                               
+
 
                                 Console.WriteLine($"The file {param1} has been uploaded");
                                 Console.WriteLine($"File name: {Path.GetFileName(param1)}");

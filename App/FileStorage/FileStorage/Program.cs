@@ -9,12 +9,14 @@ namespace FileStorage
     {       
         static void Main(string[] args)
         {
+            #region appsettings.json
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
                 .AddJsonFile("appsettings.json", false)
                 .Build();
 
-            var fileConfig = config.GetSection("MetaFileInfo").Get<MetaFileInfo>();
+            var path = config.GetSection("MetaFileInfo").Get<MetaFileInfo>().Path;
+            #endregion
 
             #region Authentication
 
@@ -40,8 +42,6 @@ namespace FileStorage
             //}
             #endregion
 
-            string path = @"c:\Users\s.taras\source\repos\FileStorage\App\FileStorage\FileStorage\Meta.txt";
-
             FileInfo fileInf = new FileInfo(path);
             if (fileInf.Exists)
             {
@@ -54,16 +54,10 @@ namespace FileStorage
 
             do
             {
-                Console.WriteLine($"Введите команду из списка:");
-                Console.WriteLine("user_info");
-                Console.WriteLine("file_upload <path to file>");
-                Console.WriteLine("file_download <file name> <destination path>");
-                Console.WriteLine("file_move <source file name> <destination file name>");
-                Console.WriteLine("file_remove <file name>");
-                Console.WriteLine("file_info <file name>");
-                Console.WriteLine();
+                var commandManager = new CommandsManager();
+                commandManager.ShowCommands();
                 string input = Console.ReadLine();
-                CommandsManager.Manager(input);
+                var command = commandManager.ParseCommand(input);
             }
             while (true);
 
