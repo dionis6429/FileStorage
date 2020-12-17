@@ -14,7 +14,23 @@ namespace FileStorage
 
         public void RunCommand()
         {
+            switch (Command.FileOperation)
+            {
+                case FileOperation.file_download:
+                    FileDownload();
+                    break;
+                case FileOperation.file_move:
+                    FileDownload();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void FileDownload()
+        {
 
         }
+
     }
 }

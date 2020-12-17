@@ -42,12 +42,23 @@ namespace FileStorage
             //}
             #endregion
 
+            #region Create Meta Storage File
+            if (!File.Exists(path))
+            {
+                File.Create(path);
+            }
+            #endregion      
+
 
             var commandManager = new CommandsManager();
             commandManager.ShowCommands();
             string input = Console.ReadLine();
             var command = commandManager.ParseCommand(input);
 
+            if (command != null && command.FileOperation == FileOperation.user_info)
+            { 
+            
+            }
 
             var metaFileStorageManager = new MetaFileStorageManager(command);
             metaFileStorageManager.RunCommand();
@@ -55,20 +66,8 @@ namespace FileStorage
             var fileStorageManager = new MetaFileStorageManager(command);
             fileStorageManager.RunCommand();
 
+            // END
 
-
-            //TODO: handle param1 instead of string.empty
-            StorageFile sf = new StorageFile(Path.GetFileName(string.Empty));
-            Stream stream = File.Open("FileStorage.dat", FileMode.Create);
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, sf);
-            stream.Close();
-            sf = null;
-            stream = File.Open("FileStorage.dat", FileMode.Open);
-            formatter = new BinaryFormatter();
-            sf = (StorageFile)formatter.Deserialize(stream);
-            stream.Close();
-            Console.WriteLine(sf.ToString());
 
 
 
