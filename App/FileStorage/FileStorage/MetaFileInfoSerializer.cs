@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+
 
 namespace FileStorage
 {
@@ -8,13 +8,13 @@ namespace FileStorage
     {
         public string Serialize(MetaFileInfoEntity metaFileInfoEntity)
         {
-            return $"{metaFileInfoEntity.Id} {metaFileInfoEntity.Name} {metaFileInfoEntity.Size} {metaFileInfoEntity.Location}";
+            return $"{metaFileInfoEntity.Id} {metaFileInfoEntity.Name} { metaFileInfoEntity.Extension} {metaFileInfoEntity.Size} {metaFileInfoEntity.CreationDate} {metaFileInfoEntity.DownloadsNunber}";
         }
 
         public MetaFileInfoEntity DeserializeString(string stringContent)
         {
             var parsedString = stringContent.Split(" ");
-            return new MetaFileInfoEntity()
+            return new MetaFileInfoEntity("c:\\git-example\\lab-file-storage\\README.md ")
             {
                 Id = Convert.ToInt32(parsedString[0])
             };

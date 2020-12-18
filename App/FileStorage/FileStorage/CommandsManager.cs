@@ -4,37 +4,7 @@ using System.IO;
 namespace FileStorage
 {
     public class CommandsManager
-    {
-        //public string Command { get; }
-        //public string Param1 { get; set; }
-        //public string Param2 { get; set; }
-
-        //public enum FileOperation : byte
-        //{
-        //    user_info,
-        //    file_upload,
-        //    file_download,
-        //    file_move,
-        //    file_remove,
-        //    file_info
-        //}
-        //public CommandsManager()
-        //{
-
-        //}
-        //public CommandsManager(string command, string param1)
-        //{
-        //    Command = command;
-        //    Param1 = param1;
-        //}
-        //public CommandsManager(string command, string param1, string param2)
-        //{
-        //    Command = command;
-        //    Param1 = param1;
-        //    Param2 = param2;
-        //}
-        //public static void Manager(FileOperation fileOperation, string Param1, string Param2)
-
+    {        
         public void ShowCommands()
         {
             Console.WriteLine($"Введите команду из списка:");

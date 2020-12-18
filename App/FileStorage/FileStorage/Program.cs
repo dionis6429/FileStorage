@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.Extensions.Configuration;
 
 namespace FileStorage
@@ -49,7 +48,6 @@ namespace FileStorage
             }
             #endregion      
 
-
             var commandManager = new CommandsManager();
             commandManager.ShowCommands();
             string input = Console.ReadLine();
@@ -57,70 +55,22 @@ namespace FileStorage
 
             //if (command != null && command.FileOperation == FileOperation.user_info)
             //{
-
+                
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Wrong command. Press 'Enter' to quit");
+            //    Console.Read();
             //}
 
-            var metaFileStorageManager = new MetaFileStorageManager(command);
+            var metaFileStorageManager = new MetaFileStorageManager(command, path);
             metaFileStorageManager.RunCommand();
 
             var fileStorageManager = new FileStorageManager(command);
             fileStorageManager.RunCommand();
 
+
             // END
-
-
-
-
-            #region Serialization
-            ////объект для сериализации
-            //StorageFile storageFile = new StorageFile();
-            //Console.WriteLine("Объект создан");
-
-            ////создаем объект бинари форматтер
-            //BinaryFormatter formatter = new BinaryFormatter();
-
-            //// получаем поток, куда будем записывать сериализованный поток
-            //using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-            //{
-            //    formatter.Serialize(fs, storageFile);
-            //    Console.WriteLine("Объект сериализован");
-            //}
-
-            ////десириализация из файла Meta.txt
-            //using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-            //{
-            //    StorageFile newStorageFile = (StorageFile)formatter.Deserialize(fs);
-            //    Console.WriteLine("Объект десериализован");
-
-            //}
-            #endregion
-            //Type type = Type.GetType("FileStorage.StorageFile");
-            //var members = type.GetMembers();
-            //foreach (MemberInfo memberInfo in members)
-            //{
-            //    Console.WriteLine(memberInfo.Name);
-            //}
-
-
-
-            //StorageFile storageFile = new StorageFile("firstfile", "exe");
-            //using (var sw = new StreamWriter(path, true))
-            //{
-            //    sw.Write(storageFile.Name + " ");
-            //    sw.Write(storageFile.Extension + " ");
-            //    sw.Write(storageFile.Size + " ");
-            //    sw.Write(storageFile.CreationData + " ");
-            //    sw.WriteLine(storageFile.DownloadsNunber);
-            //}
-
-
-
-            //using (var sr = new StreamReader(@"c:\Users\s.taras\source\repos\FileStorage\App\FileStorage\FileStorage\StorageFile.txt"))
-            //{
-            //    var text = sr.ReadToEnd();
-            //    Console.WriteLine(text);
-            //}
-
         }
     }
 }

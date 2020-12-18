@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 namespace FileStorage
 {
-    [Serializable()]
-    public class StorageFile : ISerializable
+    //[Serializable]
+    public class StorageFile
     {
         public string Location { get; set; }
         public string Name { get; set; }
@@ -24,27 +22,28 @@ namespace FileStorage
             Size = 0;
             DownloadsNunber = 0;
         }
-        public override string ToString()
-        {
-            return string.Format("Name: {0} Extension: {1} Size: {2} CreationDate: {3} DownloadsNumber: {4}", Name, Extension, Size, CreationDate, DownloadsNunber); 
-        }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Name", Name);
-            info.AddValue("Extension", Extension);
-            info.AddValue("Size", Size);
-            info.AddValue("CreationDate", CreationDate);
-            info.AddValue("DownloadsNumber", DownloadsNunber);
-        }
+        //public override string ToString()
+        //{
+        //    return string.Format("Name: {0} Extension: {1} Size: {2} CreationDate: {3} DownloadsNumber: {4}", Name, Extension, Size, CreationDate, DownloadsNunber);
+        //}
 
-        public StorageFile(SerializationInfo info, StreamingContext context)
-        {
-            Name = (string)info.GetValue("Name", typeof(string));
-            Extension = (string)info.GetValue("Extension", typeof(string));
-            Size = (int)info.GetValue("Size", typeof(int));
-            CreationDate = (DateTime)info.GetValue("CreationDate", typeof(DateTime));
-            DownloadsNunber = (int)info.GetValue("DownloadsNumber", typeof(int));
-        }
+        //public void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    info.AddValue("Name", Name);
+        //    info.AddValue("Extension", Extension);
+        //    info.AddValue("Size", Size);
+        //    info.AddValue("CreationDate", CreationDate);
+        //    info.AddValue("DownloadsNumber", DownloadsNunber);
+        //}
+
+        //public StorageFile(SerializationInfo info, StreamingContext context)
+        //{
+        //    Name = (string)info.GetValue("Name", typeof(string));
+        //    Extension = (string)info.GetValue("Extension", typeof(string));
+        //    Size = (int)info.GetValue("Size", typeof(int));
+        //    CreationDate = (DateTime)info.GetValue("CreationDate", typeof(DateTime));
+        //    DownloadsNunber = (int)info.GetValue("DownloadsNumber", typeof(int));
+        //}
     }
 }
