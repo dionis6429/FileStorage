@@ -7,10 +7,13 @@ namespace FileStorage
 {
     public class MetaFileStorageManager
     {
-        public MetaFileStorageManager(Command command)
+        public MetaFileStorageManager(Command command, string metaFilePath)
         {
             Command = command;
+            MetaFilePath = metaFilePath;
         }
+        public string MetaFilePath { get; set; }
+
         public Command Command { get; set; }
 
         public void RunCommand()
@@ -28,17 +31,25 @@ namespace FileStorage
             }
         }
 
+        private void FileUpload(string metaFileInfoEntity)
+        {
+            using (StreamWriter writer = new StreamWriter(MetaFilePath))
+            {
+                writer.WriteLine(metaFileInfoEntity);
+            }
+        }
+
         private void FileUpload()
         {
             //TODO: handle param1 instead of string.empty
             
             StorageFile sf = new StorageFile(Command.From);
-            Stream stream = File.Open("c:\\Users\\s.taras\\source\\repos\\FileStorage\\App\\FileStorage\\FileStorage\\Meta.txt", FileMode.Create);
+            Stream stream = File.Open(MetaFilePath, FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(stream, sf);
             stream.Close();
             //sf = null;
-            stream = File.Open("c:\\Users\\s.taras\\source\\repos\\FileStorage\\App\\FileStorage\\FileStorage\\Meta.txt", FileMode.Open);
+            stream = File.Open(MetaFilePath, FileMode.Open);
             formatter = new BinaryFormatter();
             sf = (StorageFile)formatter.Deserialize(stream);
             stream.Close();
