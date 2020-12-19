@@ -34,6 +34,10 @@ namespace FileStorage
                     FileMove();
                     break;
 
+                case FileOperation.file_remove:
+                    FileRemove();
+                    break;
+
                 default:
                     break;
             }
@@ -45,40 +49,33 @@ namespace FileStorage
             Console.WriteLine($"Creation Date: {File.GetLastWriteTime(Authenticator.Login)}");
             Console.WriteLine($"Storage Used: {File.GetCreationTime(Authenticator.Login)}");
         }
-        private void FileUpload()
+        private void FileUpload() //file upload <path-to-file>" - загрузка файла, находящегося по пути path-to-file в хранилище;
         {
             MetaFileInfoSerializer metaFileInfoSerializer = new MetaFileInfoSerializer();
-            MetaFileInfoEntity metaFileInfo = new MetaFileInfoEntity(Command.From);
+            MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(Command.From);
                                     
-            using (StreamWriter writer = new StreamWriter(MetaFilePath))
+            using (StreamWriter sw = new StreamWriter(MetaFilePath))
             {
-                writer.WriteLine(metaFileInfoSerializer.Serialize(metaFileInfo));
+                sw.WriteLine(metaFileInfoSerializer.Serialize(metaFileInfoEntity));
             }
         }
-        private void FileDownload()
+        private void FileDownload() //file download <file-name> <destination-path>" - скачивание файла c именем file-name из хранилища в директорию destination-path;
         {
-
+            MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(MetaFilePath); 
+            MetaFileInfoSerializer metaFileInfoSerializer = new MetaFileInfoSerializer();
+            
+            using (StreamReader sr = new StreamReader(MetaFilePath))
+            {
+                sr.ReadToEnd();
+            }
         }
-
-        //private void FileUpload()
-        //{
-        //    //TODO: handle param1 instead of string.empty
-
-        //    StorageFile sf = new StorageFile(Command.From);
-        //    Stream stream = File.Open(MetaFilePath, FileMode.Create);
-        //    BinaryFormatter formatter = new BinaryFormatter();
-        //    formatter.Serialize(stream, sf);
-        //    stream.Close();
-        //    //sf = null;
-        //    stream = File.Open(MetaFilePath, FileMode.Open);
-        //    formatter = new BinaryFormatter();
-        //    sf = (StorageFile)formatter.Deserialize(stream);
-        //    stream.Close();
-        //    Console.WriteLine(sf.ToString());
-        //}
-        private void FileMove()
+        private void FileMove() //file move <source-file-name> <destination-file-name>" - переименование файла в рамках хранилища: из пути source-file-name в destination-file-name"
         {
-
+            //в стриме найти имя и заменить его
+        }
+        private void FileRemove() //file remove <file-name>" - удаление файла file-name из хранилища. Пользовательская корзина не предусмотрена, поэтому удаление осуществляется раз и навсегда;
+        {
+            //убрать строку с именем файла
         }
 
     }

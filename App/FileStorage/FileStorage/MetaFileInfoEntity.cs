@@ -21,8 +21,9 @@ namespace FileStorage
             Name = Path.GetFileName(location);
             Extension = Path.GetExtension(location);
             CreationDate = File.GetCreationTime(location);
-            Size = 0;
+            Size =  0;
             DownloadsNunber = 0;
         }
+
     }
 }
