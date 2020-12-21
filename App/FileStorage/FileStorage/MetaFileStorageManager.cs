@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 
 namespace FileStorage
@@ -53,7 +54,7 @@ namespace FileStorage
         {
             MetaFileInfoSerializer metaFileInfoSerializer = new MetaFileInfoSerializer();
             MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(Command.From);
-                                    
+
             using (StreamWriter sw = new StreamWriter(MetaFilePath, true))
             {
                 sw.WriteLine(metaFileInfoSerializer.Serialize(metaFileInfoEntity));
@@ -61,9 +62,9 @@ namespace FileStorage
         }
         private void FileDownload() //file download <file-name> <destination-path>" - скачивание файла c именем file-name из хранилища в директорию destination-path;
         {
-            MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(MetaFilePath); 
+            MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(MetaFilePath);
             MetaFileInfoSerializer metaFileInfoSerializer = new MetaFileInfoSerializer();
-            
+
             using (StreamReader sr = new StreamReader(MetaFilePath))
             {
                 metaFileInfoSerializer.DeserializeFileContent(sr.ReadToEnd());
@@ -76,7 +77,21 @@ namespace FileStorage
         }
         private void FileRemove() //file remove <file-name>" - удаление файла file-name из хранилища. Пользовательская корзина не предусмотрена, поэтому удаление осуществляется раз и навсегда;
         {
-            //убрать строку с именем файла
+            MetaFileInfoSerializer metaFileInfoSerializer = new MetaFileInfoSerializer();
+
+            using (StreamReader sr = new StreamReader(MetaFilePath))
+            {
+                var collection = metaFileInfoSerializer.DeserializeFileContent(sr.ReadToEnd());
+                var filesWithoutFileToRemove = collection.Where(x => !x.Name.Contains(Command.From));
+                File.WriteAllText(MetaFilePath, string.Empty);
+                using (StreamWriter sw = new StreamWriter(MetaFilePath, true))
+                {
+                    foreach (var file in filesWithoutFileToRemove)
+                    {
+                        sw.WriteLine(metaFileInfoSerializer.Serialize(file));
+                    }
+                }
+            }
         }
 
     }
