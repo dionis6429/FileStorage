@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace FileStorage
@@ -14,15 +15,15 @@ namespace FileStorage
         public MetaFileInfoEntity DeserializeString(string stringContent)
         {
             var parsedString = stringContent.Split(" ");
-            return new MetaFileInfoEntity("c:\\git-example\\lab-file-storage\\README.md ")
+            return new MetaFileInfoEntity()
             {
-                Id = Convert.ToInt32(parsedString[0])
+                Id = Guid.Parse(parsedString[0])
             };
         }
 
         public List<MetaFileInfoEntity> DeserializeFileContent(string content)
         {
-            var rows = content.Split(new[] { '\r', '\n' });
+            var rows = content.Split(new[] { '\n' }).Where(x => !string.IsNullOrEmpty(x));
             var collection = new List<MetaFileInfoEntity>();
             foreach (var row in rows)
             {

@@ -54,7 +54,7 @@ namespace FileStorage
             MetaFileInfoSerializer metaFileInfoSerializer = new MetaFileInfoSerializer();
             MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(Command.From);
                                     
-            using (StreamWriter sw = new StreamWriter(MetaFilePath))
+            using (StreamWriter sw = new StreamWriter(MetaFilePath, true))
             {
                 sw.WriteLine(metaFileInfoSerializer.Serialize(metaFileInfoEntity));
             }
@@ -66,7 +66,8 @@ namespace FileStorage
             
             using (StreamReader sr = new StreamReader(MetaFilePath))
             {
-                sr.ReadToEnd();
+                metaFileInfoSerializer.DeserializeFileContent(sr.ReadToEnd());
+
             }
         }
         private void FileMove() //file move <source-file-name> <destination-file-name>" - переименование файла в рамках хранилища: из пути source-file-name в destination-file-name"
