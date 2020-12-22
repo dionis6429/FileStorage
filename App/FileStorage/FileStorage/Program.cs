@@ -63,7 +63,7 @@ namespace FileStorage
             //    Console.Read();
             //}
 
-            var metaFileStorageManager = new MetaFileStorageManager(command, path);
+              var metaFileStorageManager = new MetaFileStorageManager(command, path);
             metaFileStorageManager.RunCommand();
 
             var fileStorageManager = new FileStorageManager(command);

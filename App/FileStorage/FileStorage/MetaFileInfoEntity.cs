@@ -13,20 +13,18 @@ namespace FileStorage
         public string Extension { get; set; }
         public int Size { get; private set; }
         public DateTime CreationDate { get; set; }
-        public int DownloadsNunber { get; private set; }
+        public int DownloadsNumber { get; set; }
 
-        public MetaFileInfoEntity() {}
+        //public MetaFileInfoEntity() {}
         public MetaFileInfoEntity(string location)
-
         {
             Location = location;
             Name = Path.GetFileName(location);
             Extension = Path.GetExtension(location);
             CreationDate = File.GetCreationTime(location);
-            Size =  0;
-            DownloadsNunber = 0;
+            Size = 0;
+            DownloadsNumber = 0;
             Id = Guid.NewGuid();
         }
-
     }
 }

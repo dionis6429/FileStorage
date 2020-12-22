@@ -98,7 +98,7 @@ namespace FileStorage
                 Console.WriteLine("File extension: {0}", fileInf.Extension);
                 Console.WriteLine("Creation date: {0}", fileInf.CreationTime);
                 Console.WriteLine($"File size: {fileInf.Length} bites");
-                Console.WriteLine("Downloads number: {0}");
+                Console.WriteLine($"Downloads number: {metaFileInfoEntity.DownloadsNumber}");
             }
         }
     }
