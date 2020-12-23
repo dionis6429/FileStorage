@@ -6,9 +6,11 @@ namespace FileStorage
 {
     public class FileStorageManager
     {
-        public FileStorageManager(Command command)
+        public MetaFileInfo MetaFileInfo { get; set; }
+        public FileStorageManager(Command command, MetaFileInfo metaFileInfo)
         {
             Command = command;
+            MetaFileInfo = MetaFileInfo;
         }
         public Command Command { get; set; }
         public void RunCommand()
@@ -32,7 +34,7 @@ namespace FileStorage
                     break;
 
                 case FileOperation.file_info:
-                    FileInfo();
+                    //FileInfo();
                     break;
 
                 default:
@@ -43,8 +45,8 @@ namespace FileStorage
         {
             MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(Command.From);
             string path = Command.From;
-            string newPath = $"c:\\Users\\s.taras\\source\\repos\\FileStorage\\App\\FileStorage\\FileStorage\\{metaFileInfoEntity.Name}";
-            FileInfo fileInf = new FileInfo(path);
+            string newPath = $"{MetaFileInfo.Path}{metaFileInfoEntity.Name}";
+            FileInfo fileInf = new FileInfo(MetaFileInfo.FullPath);
             if (fileInf.Exists)
             {
                 fileInf.CopyTo(newPath, true);
@@ -54,7 +56,7 @@ namespace FileStorage
         private void FileDownload() //file download <file-name> <destination-path>" - скачивание файла c именем file-name из хранилища в директорию destination-path;
         {
             MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(Command.From);
-            string path = $"c:\\Users\\s.taras\\source\\repos\\FileStorage\\App\\FileStorage\\FileStorage\\{metaFileInfoEntity.Name}";
+            string path = $"{MetaFileInfo.Path}{metaFileInfoEntity.Name}";
             string newPath = Command.To + metaFileInfoEntity.Name;
             FileInfo fileInf = new FileInfo(path);
             if (fileInf.Exists)
@@ -66,9 +68,9 @@ namespace FileStorage
         private void FileMove() //file move <source-file-name> <destination-file-name>" - переименование файла в рамках хранилища: из пути source-file-name в destination-file-name"
         {
             MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(Command.From);
-            string path = $"c:\\Users\\s.taras\\source\\repos\\FileStorage\\App\\FileStorage\\FileStorage\\{metaFileInfoEntity.Name}";
+            string path = $"{metaFileInfoEntity.Name}";
             metaFileInfoEntity.Name = Command.To;
-            string newPath = $"c:\\Users\\s.taras\\source\\repos\\FileStorage\\App\\FileStorage\\FileStorage\\{metaFileInfoEntity.Name}";
+            string newPath = $"{MetaFileInfo.Path}{metaFileInfoEntity.Name}";
             FileInfo fileInf = new FileInfo(path);
             if (fileInf.Exists)
             {
@@ -79,7 +81,7 @@ namespace FileStorage
         private void FileRemove() //file remove <file-name>" - удаление файла file-name из хранилища. Пользовательская корзина не предусмотрена, поэтому удаление осуществляется раз и навсегда;
         {
             MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(Command.From);
-            string path = $"c:\\Users\\s.taras\\source\\repos\\FileStorage\\App\\FileStorage\\FileStorage\\{metaFileInfoEntity.Name}";
+            string path = $"{MetaFileInfo.Path}{metaFileInfoEntity.Name}";
             FileInfo fileInf = new FileInfo(path);
             if (fileInf.Exists)
             {
@@ -87,19 +89,6 @@ namespace FileStorage
                 Console.WriteLine("File is removed");
             }
         }
-        private void FileInfo() //file info <file-name>" - отображение информации о файле file-name
-        {
-            MetaFileInfoEntity metaFileInfoEntity = new MetaFileInfoEntity(Command.From);
-            string path = $"c:\\Users\\s.taras\\source\\repos\\FileStorage\\App\\FileStorage\\FileStorage\\{metaFileInfoEntity.Name}";
-            FileInfo fileInf = new FileInfo(path);
-            if (fileInf.Exists)
-            {
-                Console.WriteLine("File name: {0}", fileInf.Name);
-                Console.WriteLine("File extension: {0}", fileInf.Extension);
-                Console.WriteLine("Creation date: {0}", fileInf.CreationTime);
-                Console.WriteLine($"File size: {fileInf.Length} bites");
-                Console.WriteLine($"Downloads number: {metaFileInfoEntity.DownloadsNumber}");
-            }
-        }
+
     }
 }

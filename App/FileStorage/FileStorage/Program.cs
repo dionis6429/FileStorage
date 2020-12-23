@@ -14,7 +14,7 @@ namespace FileStorage
                 .AddJsonFile("appsettings.json", false)
                 .Build();
 
-            var path = config.GetSection("MetaFileInfo").Get<MetaFileInfo>().Path;
+            var metaFileInfo = config.GetSection("MetaFileInfo").Get<MetaFileInfo>();
             #endregion
 
             #region Authentication
@@ -42,9 +42,9 @@ namespace FileStorage
             #endregion
 
             #region Create Meta Storage File
-            if (!File.Exists(path))
+            if (!File.Exists(metaFileInfo.FullPath))
             {
-                File.Create(path);
+                File.Create(metaFileInfo.FullPath);
             }
             #endregion      
 
@@ -55,7 +55,7 @@ namespace FileStorage
 
             //if (command != null && command.FileOperation == FileOperation.user_info)
             //{
-                
+
             //}
             //else
             //{
@@ -63,13 +63,13 @@ namespace FileStorage
             //    Console.Read();
             //}
 
-              var metaFileStorageManager = new MetaFileStorageManager(command, path);
+            var metaFileStorageManager = new MetaFileStorageManager(command, metaFileInfo);
             metaFileStorageManager.RunCommand();
 
-            var fileStorageManager = new FileStorageManager(command);
+            var fileStorageManager = new FileStorageManager(command, metaFileInfo);
             fileStorageManager.RunCommand();
 
-
+           
             // END
         }
     }

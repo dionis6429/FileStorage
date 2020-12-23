@@ -7,5 +7,16 @@ namespace FileStorage
     public class MetaFileInfo
     {
         public string Path { get; set; }
+
+        public string Name { get; set; }
+
+        public string FullPath
+        {
+            get
+
+            {
+                return $"{ Path }{ Name }";
+            }
+        }
     }
 }

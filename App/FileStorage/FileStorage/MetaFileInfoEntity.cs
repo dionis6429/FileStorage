@@ -15,7 +15,6 @@ namespace FileStorage
         public DateTime CreationDate { get; set; }
         public int DownloadsNumber { get; set; }
 
-        //public MetaFileInfoEntity() {}
         public MetaFileInfoEntity(string location)
         {
             Location = location;

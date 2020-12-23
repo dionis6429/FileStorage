@@ -6,6 +6,9 @@ namespace FileStorage
 {
     public static class Constants
     {
-        public static string Command_Read = "";
+        public static string Login_Label = "Login:";
+        public static string Password_Label = "Password:";
+        public static string CreationDate_Label = "Creation Date:";
+        public static string UsedStorage_Label = "Used Storage:";
     }
 }
