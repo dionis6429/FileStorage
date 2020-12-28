@@ -6,6 +6,6 @@ namespace FileStorage.Core.Services.Interfaces
 {
     public interface ILogger
     {
-        string Log();
+        string Log(string message);
     }
 }
