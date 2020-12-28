@@ -12,10 +12,16 @@ namespace FileStorage.Core.Services
     public class MetaFileStorageService : BaseStorageService
     {
         private readonly IMetaFileInfoSerializerService _metaFileInfoSerializerService;
-        public MetaFileStorageService(ContainerForCommand containerForCommand, MetaFileInfoSettings metaFileInfoSettings, IMetaFileInfoSerializerService metaFileInfoSerializerService)
+        private readonly IAuthenticationService _authenticationService;
+        public MetaFileStorageService(ContainerForCommand containerForCommand,
+            MetaFileInfoSettings metaFileInfoSettings,
+            IMetaFileInfoSerializerService metaFileInfoSerializerService,
+            IAuthenticationService authenticationService
+            )
             : base(containerForCommand, metaFileInfoSettings)
         {
             _metaFileInfoSerializerService = metaFileInfoSerializerService;
+            _authenticationService = authenticationService;
         }
 
         public override void FileInfo() //file info <file-name>" - отображение информации о файле file-name
@@ -31,9 +37,9 @@ namespace FileStorage.Core.Services
 
         public override void UserInfo()
         {
-            Console.WriteLine($"{Constants.Login_Label} {Constants.Login}");
-            Console.WriteLine($"{Constants.CreationDate_Label} {File.GetLastWriteTime(Constants.Login)}");
-            Console.WriteLine($"{Constants.UsedStorage_Label} {File.GetCreationTime(Constants.Login)}");
+            Console.WriteLine($"{Constants.Login_Label} {_authenticationService.Login}");
+            Console.WriteLine($"{Constants.CreationDate_Label} {File.GetLastWriteTime(_authenticationService.Login)}");
+            Console.WriteLine($"{Constants.UsedStorage_Label} {File.GetCreationTime(_authenticationService.Login)}");
         }
         public override void FileUpload() //file upload <path-to-file>" - загрузка файла, находящегося по пути path-to-file в хранилище;
         {

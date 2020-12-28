@@ -5,15 +5,15 @@ using System.Text;
 
 namespace FileStorage.Core.Services
 {
-    public class DisplayService : IDisplayService
+    public class DisplayService 
     {
-        public void DisplayMessages(IList<string> messages)
+        public static void DisplayMessages(IList<string> messages, bool waitForEntry = false)
         {
             foreach (var message in messages)
             {
                 Console.WriteLine(message);
             }
-            Console.ReadLine();
+            if(waitForEntry)  Console.ReadLine();
         }
     }
 }
