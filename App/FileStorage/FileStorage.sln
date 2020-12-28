@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStorage.UI", "FileStorage\FileStorage.UI.csproj", "{244DE0B8-464B-42C7-A2D6-99DD8F6F1D8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStorage.Core", "FileStorage.Core\FileStorage.Core.csproj", "{3A8E33FA-91AE-43CA-A7E7-633986FB0A90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStorage.Core", "FileStorage.Core\FileStorage.Core.csproj", "{3A8E33FA-91AE-43CA-A7E7-633986FB0A90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStorage.Tests", "FileStorage.Tests\FileStorage.Tests.csproj", "{B82A14DA-E2A1-4CBF-A29F-6AA2F460D3CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3A8E33FA-91AE-43CA-A7E7-633986FB0A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A8E33FA-91AE-43CA-A7E7-633986FB0A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A8E33FA-91AE-43CA-A7E7-633986FB0A90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B82A14DA-E2A1-4CBF-A29F-6AA2F460D3CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B82A14DA-E2A1-4CBF-A29F-6AA2F460D3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B82A14DA-E2A1-4CBF-A29F-6AA2F460D3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B82A14DA-E2A1-4CBF-A29F-6AA2F460D3CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
