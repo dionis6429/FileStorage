@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FileStorage.Core.Services.Interfaces
 {
-    public interface ILogger
+    public interface ILoggerService
     {
         string Log(string message);
     }

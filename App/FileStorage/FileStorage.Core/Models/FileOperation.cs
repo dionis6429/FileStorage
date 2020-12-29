@@ -11,6 +11,7 @@ namespace FileStorage.Core.Models
         file_download,
         file_move,
         file_remove,
-        file_info
+        file_info,
+        file_find
     }
 }

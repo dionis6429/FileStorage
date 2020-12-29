@@ -1,4 +1,5 @@
-﻿using FileStorage.Core.Models;
+﻿using FileStorage.Core.Exceptions;
+using FileStorage.Core.Models;
 using FileStorage.Core.Services.Interfaces;
 using System;
 using System.IO;
@@ -10,10 +11,13 @@ namespace FileStorage.Core.Services
     {
         public FileStorageService(ContainerForCommand containerForCommand, MetaFileInfoSettings metaFileInfoSettings) : base(containerForCommand, metaFileInfoSettings)
         {
+
         }
 
         public override void FileUpload()
         {
+            if (string.IsNullOrEmpty(ContainerForCommand.From) || !File.Exists(ContainerForCommand.From)) throw new FileNotFoundException($"File was not found {ContainerForCommand.From}");
+
             var metaFileInfoEntity = new MetaFileInfoEntity(ContainerForCommand.From);
             string newPath = $"{MetaFileInfoSettings.Path}{metaFileInfoEntity.Name}";
             FileInfo fileInf = new FileInfo(MetaFileInfoSettings.FullPath);
@@ -26,6 +30,10 @@ namespace FileStorage.Core.Services
 
         public override void FileDownload()
         {
+            if (string.IsNullOrEmpty(ContainerForCommand.To) || !Directory.Exists(ContainerForCommand.To)) throw new DirectoryNotFoundException($"Directory was not found {ContainerForCommand.To}");
+
+            if (!File.Exists(ContainerForCommand.From)) throw new FileNotFoundException($"File was not found { ContainerForCommand.From}");
+
             var metaFileInfoEntity = new MetaFileInfoEntity(ContainerForCommand.From);
             string path = $"{MetaFileInfoSettings.Path}{MetaFileInfoSettings.Name}";
             string newPath = ContainerForCommand.To + metaFileInfoEntity.Name;
@@ -69,6 +77,11 @@ namespace FileStorage.Core.Services
         }
 
         public override void UserInfo()
+        {
+            
+        }
+
+        public override void FileFind()
         {
             
         }

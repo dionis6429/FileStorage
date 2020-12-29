@@ -25,5 +25,7 @@ namespace FileStorage.Core.Services.Interfaces
         public abstract void FileRemove();
 
         public abstract void FileInfo();
+
+        public abstract void FileFind();
     }
 }

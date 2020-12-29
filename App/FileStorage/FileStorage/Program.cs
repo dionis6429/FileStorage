@@ -15,7 +15,7 @@ namespace FileStorage.UI
         public
         static void Main(string[] args)
         {
-            var provider = RegisterServicesAndGeterviceProvider();
+            var provider = RegisterServicesAndGetServiceProvider();
 
 
             var _authenticationService = provider.GetService<IAuthenticationService>();
@@ -68,7 +68,8 @@ namespace FileStorage.UI
             "file_download <file name> <destination path>",
             "file_move <source file name> <destination file name>",
             "file_remove <file name>",
-            "file_info <file name>"
+            "file_info <file name>",
+            "file_find <file name>"
             };
             DisplayService.DisplayMessages(messages);
 
@@ -79,8 +80,8 @@ namespace FileStorage.UI
 
             var storageServices = new List<BaseStorageService>()
             {
-                new MetaFileStorageService(containerForCommand, metaFileInfoSettings, _metaFileInfoSerializerService, _authenticationService),
                 new FileStorageService(containerForCommand, metaFileInfoSettings),
+                new MetaFileStorageService(containerForCommand, metaFileInfoSettings, _metaFileInfoSerializerService, _authenticationService)
             };
 
             foreach (var service in storageServices)
@@ -106,6 +107,15 @@ namespace FileStorage.UI
                     case FileOperation.file_info:
                         service.FileInfo();
                         break;
+
+                    case FileOperation.file_find:
+                        service.FileFind();
+                        break;
+
+                    case FileOperation.user_info:
+                        service.UserInfo();
+                        break;
+
                     default:
                         break;
                 }
@@ -113,7 +123,7 @@ namespace FileStorage.UI
 
         }
 
-        private static ServiceProvider RegisterServicesAndGeterviceProvider()
+        private static ServiceProvider RegisterServicesAndGetServiceProvider()
         {
             return new ServiceCollection()
                                     .AddScoped<IAuthenticationService, AuthenticationService>()

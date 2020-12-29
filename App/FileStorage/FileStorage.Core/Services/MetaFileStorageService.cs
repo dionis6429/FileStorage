@@ -52,6 +52,7 @@ namespace FileStorage.Core.Services
         public override void FileDownload() //file download <file-name> <destination-path>" - скачивание файла c именем file-name из хранилища в директорию destination-path;
         {
 
+
             var fileInfo = new FileInfo(MetaFileInfoSettings.FullPath);
             var filesWithoutDownloadedFile = new List<MetaFileInfoEntity>();
             var changedDownloadsNumber = new List<MetaFileInfoEntity>();
@@ -114,6 +115,11 @@ namespace FileStorage.Core.Services
                     sw.WriteLine(_metaFileInfoSerializerService.Serialize(file));
                 }
             }
+        }
+
+        public override void FileFind()
+        {
+            // проверить
         }
     }
 }
