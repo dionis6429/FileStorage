@@ -26,13 +26,13 @@ namespace FileStorage.Core.Services
 
         public override void FileInfo() //file info <file-name>" - отображение информации о файле file-name
         {
-            //MetaFileInfoSerializer metaFileInfoSerializer = new MetaFileInfoSerializer(MetaFileInfo.FullPath);
-            //metaFileInfoSerializer = metaFileInfoSerializer.DeserializeString()
-            //Console.WriteLine("File name: {0}", metaFileInfoEntity.Name);
-            //    Console.WriteLine("File extension: {0}", metaFileInfoEntity.Extension);
-            //    Console.WriteLine("Creation date: {0}", metaFileInfoEntity.CreationDate);
-            //    Console.WriteLine($"File size: {metaFileInfoEntity.Size} bites");
-            //    Console.WriteLine($"Downloads number: {metaFileInfoEntity.DownloadsNumber}");
+            var metaFileInfoEntity = new MetaFileInfoEntity(ContainerForCommand.From);
+
+            Console.WriteLine("File name: {0}", metaFileInfoEntity.Name);
+            Console.WriteLine("File extension: {0}", metaFileInfoEntity.Extension);
+            Console.WriteLine("Creation date: {0}", metaFileInfoEntity.CreationDate);
+            Console.WriteLine($"File size: {metaFileInfoEntity.Size} bites");
+            Console.WriteLine($"Downloads number: {metaFileInfoEntity.DownloadsNumber}");
         }
 
         public override void UserInfo()
@@ -51,7 +51,6 @@ namespace FileStorage.Core.Services
         }
         public override void FileDownload() //file download <file-name> <destination-path>" - скачивание файла c именем file-name из хранилища в директорию destination-path;
         {
-
 
             var fileInfo = new FileInfo(MetaFileInfoSettings.FullPath);
             var filesWithoutDownloadedFile = new List<MetaFileInfoEntity>();
@@ -118,8 +117,20 @@ namespace FileStorage.Core.Services
         }
 
         public override void FileFind()
-        {
-            // проверить
+         {
+            var fileInfo = new FileInfo(MetaFileInfoSettings.FullPath);
+            var filesToFind = new List<MetaFileInfoEntity>();
+
+            using (StreamReader sr = new StreamReader(MetaFileInfoSettings.FullPath))
+            {
+                var collection = _metaFileInfoSerializerService.DeserializeFileContent(sr.ReadToEnd(), MetaFileInfoSettings.FullPath);
+                filesToFind = collection.Where(x => x.Name.Contains(ContainerForCommand.From)).ToList();
+
+                foreach (var item in filesToFind)
+                {
+                    Console.WriteLine(item.Name);
+                }
+            }
         }
     }
 }
