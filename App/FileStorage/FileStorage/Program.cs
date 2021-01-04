@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using FileStorage.Core.Exceptions;
 using FileStorage.Core.Models;
 using FileStorage.Core.Services;
 using FileStorage.Core.Services.Interfaces;
@@ -8,19 +9,20 @@ using FileStorage.Core.Shared;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace FileStorage.UI
 {
     public class Program
     {
-        public
         static void Main(string[] args)
         {
             var provider = RegisterServicesAndGetServiceProvider();
 
-
             var _authenticationService = provider.GetService<IAuthenticationService>();
             var _parsingService = provider.GetService<IParsingService>();
             var _metaFileInfoSerializerService = provider.GetService<IMetaFileInfoSerializerService>();
+            var _loggerService = provider.GetService<ILoggerService>();
+
 
             var config = new ConfigurationBuilder()
                   .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
@@ -28,6 +30,7 @@ namespace FileStorage.UI
                   .Build();
 
             var metaFileInfoSettings = config.GetSection("MetaFileInfoSettings").Get<MetaFileInfoSettings>();
+            var exceptionInfoSettings = config.GetSection("Logger").Get<ExceptionInfoSettings>();
 
             #region Authentication
 
@@ -75,52 +78,68 @@ namespace FileStorage.UI
 
             #endregion
 
-            string input = Console.ReadLine();
-            var containerForCommand = _parsingService.ParseCommand(input);
-
-            var storageServices = new List<BaseStorageService>()
+            while (true)
             {
-                new FileStorageService(containerForCommand, metaFileInfoSettings),
-                new MetaFileStorageService(containerForCommand, metaFileInfoSettings, _metaFileInfoSerializerService, _authenticationService)
-            };
+                string input = Console.ReadLine();
+                var containerForCommand = _parsingService.ParseCommand(input);
 
-            foreach (var service in storageServices)
-            {
-                switch (containerForCommand.FileOperation)
+                var storageServices = new List<BaseStorageService>()
                 {
-                    case FileOperation.file_upload:
-                        service.FileUpload();
-                        break;
+                    new FileStorageService(containerForCommand, metaFileInfoSettings),
+                    new MetaFileStorageService(containerForCommand, metaFileInfoSettings, _metaFileInfoSerializerService, _authenticationService)
+                };
 
-                    case FileOperation.file_download:
-                        service.FileDownload();
-                        break;
+                try
+                {
+                    foreach (var service in storageServices)
+                    {
+                        switch (containerForCommand.FileOperation)
+                        {
+                            case FileOperation.file_upload:
+                                service.FileUpload();
+                                break;
 
-                    case FileOperation.file_move:
-                        service.FileMove();
-                        break;
+                            case FileOperation.file_download:
+                                service.FileDownload();
+                                break;
 
-                    case FileOperation.file_remove:
-                        service.FileRemove();
-                        break;
+                            case FileOperation.file_move:
+                                service.FileMove();
+                                break;
 
-                    case FileOperation.file_info:
-                        service.FileInfo();
-                        break;
+                            case FileOperation.file_remove:
+                                service.FileRemove();
+                                break;
 
-                    case FileOperation.file_find:
-                        service.FileFind();
-                        break;
+                            case FileOperation.file_info:
+                                service.FileInfo();
+                                break;
 
-                    case FileOperation.user_info:
-                        service.UserInfo();
-                        break;
+                            case FileOperation.file_find:
+                                service.FileFind();
+                                break;
 
-                    default:
-                        break;
+                            case FileOperation.user_info:
+                                service.UserInfo();
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (!File.Exists(exceptionInfoSettings.FullLogPath))
+                    {
+                        File.Create(exceptionInfoSettings.FullLogPath);
+                    }
+                    
+                    ExceptionInfoEntity exceptionInfoEntity = new ExceptionInfoEntity();
+                    _loggerService.LogConsole(ex.Message);
+                    _loggerService.LogFile(exceptionInfoEntity, exceptionInfoSettings, ex.Message);
                 }
             }
-
         }
 
         private static ServiceProvider RegisterServicesAndGetServiceProvider()
@@ -129,6 +148,7 @@ namespace FileStorage.UI
                                     .AddScoped<IAuthenticationService, AuthenticationService>()
                                     .AddScoped<IMetaFileInfoSerializerService, MetaFileInfoSerializerService>()
                                     .AddScoped<IParsingService, ParsingService>()
+                                    .AddScoped<ILoggerService, ExceptionLoggerService>()
                                     .BuildServiceProvider();
         }
     }

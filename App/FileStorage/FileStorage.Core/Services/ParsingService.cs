@@ -16,7 +16,7 @@ namespace FileStorage.Core.Services
             {
                 var vs = input.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
-                if (!vs.Any()) throw new ParsingException("Parsed string does not contain elements");
+                if (!vs.Any()) throw new ParsingException("Parsed string does not contain any element");
 
                 var textCommand = vs[0];
                 var fromPath = vs.Length > 1 ? vs[1] : string.Empty;
@@ -27,15 +27,12 @@ namespace FileStorage.Core.Services
                     command = new ContainerForCommand(fileOperation, fromPath, toPath);
                 }
 
-                if(command is null)  throw new CommandException("The command is wrong");
-
+                if (command is null)  throw new CommandException("The command is wrong");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("some text of exception");
-                //Log ex
+                Console.WriteLine(ex.Message);
             }
-
             return command;
         }
     }
