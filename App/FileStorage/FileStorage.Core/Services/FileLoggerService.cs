@@ -7,13 +7,16 @@ using System.Text;
 
 namespace FileStorage.Core.Services
 {
-    public class FileLoggerService : IFileLoggerService
+    public class FileLoggerService : ILoggerService
     {
-        public void FileLog(ExceptionInfoEntity exceptionInfoEntity, ExceptionInfoSettings exceptionInfoSettings, string message)
+
+        public void Log(string message, string path = null)
         {
-            using (StreamWriter sw = new StreamWriter(exceptionInfoSettings.FullLogPath, true))
+            if (path == null) throw new Exception("Path should not be null.");
+
+            using (StreamWriter sw = new StreamWriter(path, true))
             {
-                sw.WriteLine($"{exceptionInfoEntity.Id}, {exceptionInfoEntity.TargetSite}, {exceptionInfoEntity.Message}, {message}");
+                sw.WriteLine(message);
             }
         }
     }

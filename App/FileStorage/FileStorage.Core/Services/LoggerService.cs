@@ -9,7 +9,7 @@ namespace FileStorage.Core.Services
 {
     public class LoggerService : ILoggerService
     {
-        public void Log(string message)
+        public void Log(string message, string path = null)
         {
             Console.WriteLine(message);
         }

@@ -7,6 +7,6 @@ namespace FileStorage.Core.Services.Interfaces
 {
     public interface ILoggerService
     {
-        void Log(string message);
+        void Log(string message, string path = null);
     }
 }

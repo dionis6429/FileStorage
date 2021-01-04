@@ -22,7 +22,7 @@ namespace FileStorage.UI
             var _parsingService = provider.GetService<IParsingService>();
             var _metaFileInfoSerializerService = provider.GetService<IMetaFileInfoSerializerService>();
             var _loggerService = provider.GetService<ILoggerService>();
-            var _fileLoggerService = provider.GetService<IFileLoggerService>();
+            var _fileLoggerService = provider.GetService<ILoggerService>();
 
 
             var config = new ConfigurationBuilder()
@@ -136,9 +136,7 @@ namespace FileStorage.UI
                         File.Create(exceptionInfoSettings.FullLogPath);
                     }
                     
-                    ExceptionInfoEntity exceptionInfoEntity = new ExceptionInfoEntity();
-                    _loggerService.Log(ex.Message);
-                    _fileLoggerService.FileLog(exceptionInfoEntity, exceptionInfoSettings, ex.Message);
+                    _fileLoggerService.Log( ex.Message, exceptionInfoSettings.FullLogPath);
                 }
             }
         }
@@ -149,8 +147,7 @@ namespace FileStorage.UI
                                     .AddScoped<IAuthenticationService, AuthenticationService>()
                                     .AddScoped<IMetaFileInfoSerializerService, MetaFileInfoSerializerService>()
                                     .AddScoped<IParsingService, ParsingService>()
-                                    .AddScoped<ILoggerService, LoggerService>()
-                                    .AddScoped<IFileLoggerService, FileLoggerService>()
+                                    .AddScoped<ILoggerService, FileLoggerService>()
                                     .BuildServiceProvider();
         }
     }
