@@ -5,8 +5,8 @@ using System.Text;
 
 namespace FileStorage.Core.Services.Interfaces
 {
-    public interface ILoggerService
+    public interface IFileLoggerService
     {
-        void Log(string message);
+        void FileLog(ExceptionInfoEntity exceptionInfoEntity, ExceptionInfoSettings exceptionInfoSettings, string message);
     }
 }

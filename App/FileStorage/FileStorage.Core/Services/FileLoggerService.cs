@@ -1,19 +1,15 @@
-﻿using FileStorage.Core.Services.Interfaces;
+﻿using FileStorage.Core.Exceptions;
+using FileStorage.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using FileStorage.Core.Exceptions;
+using System.Text;
 
 namespace FileStorage.Core.Services
 {
-    public class ExceptionLoggerService : ILoggerService
+    public class FileLoggerService : IFileLoggerService
     {
-        public void LogConsole(string message)
-        {
-            Console.WriteLine(message);
-        }
-        public void LogFile(ExceptionInfoEntity exceptionInfoEntity, ExceptionInfoSettings exceptionInfoSettings, string message)
+        public void FileLog(ExceptionInfoEntity exceptionInfoEntity, ExceptionInfoSettings exceptionInfoSettings, string message)
         {
             using (StreamWriter sw = new StreamWriter(exceptionInfoSettings.FullLogPath, true))
             {
