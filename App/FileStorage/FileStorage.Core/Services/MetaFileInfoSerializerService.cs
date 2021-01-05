@@ -11,7 +11,7 @@ namespace FileStorage.Core.Services
     {
         public string Serialize(MetaFileInfoEntity metaFileInfoEntity)
         {
-            return $"{metaFileInfoEntity.Id} {metaFileInfoEntity.Name} { metaFileInfoEntity.Extension} {metaFileInfoEntity.Size} {metaFileInfoEntity.CreationDate} {metaFileInfoEntity.DownloadsNumber}";
+            return $"{metaFileInfoEntity.Id} {metaFileInfoEntity.Name} {metaFileInfoEntity.Extension} {metaFileInfoEntity.Size} {metaFileInfoEntity.CreationDate} {metaFileInfoEntity.DownloadsNumber}";
         }
 
         public MetaFileInfoEntity DeserializeString(string stringContent, string metaFilePath)

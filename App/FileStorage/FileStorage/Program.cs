@@ -21,7 +21,6 @@ namespace FileStorage.UI
             var _authenticationService = provider.GetService<IAuthenticationService>();
             var _parsingService = provider.GetService<IParsingService>();
             var _metaFileInfoSerializerService = provider.GetService<IMetaFileInfoSerializerService>();
-            var _loggerService = provider.GetService<ILoggerService>();
             var _fileLoggerService = provider.GetService<ILoggerService>();
 
 
@@ -136,7 +135,7 @@ namespace FileStorage.UI
                         File.Create(exceptionInfoSettings.FullLogPath);
                     }
                     
-                    _fileLoggerService.Log( ex.Message, exceptionInfoSettings.FullLogPath);
+                    _fileLoggerService.Log(ex.Message, exceptionInfoSettings.FullLogPath);
                 }
             }
         }

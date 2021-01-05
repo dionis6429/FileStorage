@@ -19,6 +19,9 @@ namespace FileStorage.Core.Services
             if (string.IsNullOrEmpty(ContainerForCommand.From) || !File.Exists(ContainerForCommand.From)) throw new FileNotFoundException($"File was not found {ContainerForCommand.From}");
 
             var metaFileInfoEntity = new MetaFileInfoEntity(ContainerForCommand.From);
+
+            if (File.Exists(MetaFileInfoSettings.Path + metaFileInfoEntity.Name)) throw new FileLoadException($"File {metaFileInfoEntity.Name} has already uploaded");
+
             string newPath = $"{MetaFileInfoSettings.Path}{metaFileInfoEntity.Name}";
             FileInfo fileInf = new FileInfo(MetaFileInfoSettings.FullPath);
             if (fileInf.Exists)
@@ -81,7 +84,7 @@ namespace FileStorage.Core.Services
 
         public override void FileInfo()
         {
-            if (string.IsNullOrEmpty(ContainerForCommand.From) || !File.Exists(ContainerForCommand.From)) throw new FileNotFoundException($"File was not found {ContainerForCommand.From}");
+            if (string.IsNullOrEmpty(ContainerForCommand.From) || !File.Exists(MetaFileInfoSettings.Path + ContainerForCommand.From)) throw new FileNotFoundException($"File {ContainerForCommand.From} was not found ");
         }
 
         public override void UserInfo()
