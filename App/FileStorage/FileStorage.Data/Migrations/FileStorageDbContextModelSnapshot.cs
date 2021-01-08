@@ -19,16 +19,16 @@ namespace FileStorage.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.1");
 
             modelBuilder.Entity("FileStorage.Data.Entities.Entity1", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .UseIdentityColumn();
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Entities");
-                });
+                b.ToTable("Entities");
+            });
 #pragma warning restore 612, 618
         }
     }

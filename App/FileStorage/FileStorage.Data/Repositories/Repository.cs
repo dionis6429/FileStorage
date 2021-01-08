@@ -28,7 +28,7 @@ namespace FileStorage.Data.Repositories
         }
 
         public TEntity Save<TEntity>(TEntity entity) where TEntity : Entity
-        { 
+        {
             if (entity == null) throw new ArgumentNullException("Entity can not be null.");
 
             if (entity.IsNew)
