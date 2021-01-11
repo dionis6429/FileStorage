@@ -6,6 +6,7 @@ using FileStorage.Core.Models;
 using FileStorage.Core.Services;
 using FileStorage.Core.Services.Interfaces;
 using FileStorage.Core.Shared;
+using FileStorage.Data.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +23,7 @@ namespace FileStorage.UI
             var _parsingService = provider.GetService<IParsingService>();
             var _metaFileInfoSerializerService = provider.GetService<IMetaFileInfoSerializerService>();
             var _fileLoggerService = provider.GetService<ILoggerService>();
-
+            var _repository = provider.GetService<IRepository>();
 
             var config = new ConfigurationBuilder()
                   .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
@@ -86,7 +87,8 @@ namespace FileStorage.UI
                 var storageServices = new List<BaseStorageService>()
                 {
                     new FileStorageService(containerForCommand, metaFileInfoSettings),
-                    new MetaFileStorageService(containerForCommand, metaFileInfoSettings, _metaFileInfoSerializerService, _authenticationService)
+                    //new MetaFileStorageService(containerForCommand, metaFileInfoSettings, _metaFileInfoSerializerService, _authenticationService)
+                    new DbMetaFileService(containerForCommand, metaFileInfoSettings, _repository)
                 };
 
                 try
@@ -147,6 +149,7 @@ namespace FileStorage.UI
                                     .AddScoped<IMetaFileInfoSerializerService, MetaFileInfoSerializerService>()
                                     .AddScoped<IParsingService, ParsingService>()
                                     .AddScoped<ILoggerService, FileLoggerService>()
+                                     .AddScoped<IRepository, Repository>()
                                     .BuildServiceProvider();
         }
     }

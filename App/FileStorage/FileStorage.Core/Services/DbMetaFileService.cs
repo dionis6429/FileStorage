@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using FileStorage.Data.Repositories;
 using FileStorage.Core.Models;
+using System.Linq;
 
 namespace FileStorage.Core.Services
 {
@@ -31,7 +32,23 @@ namespace FileStorage.Core.Services
 
         public override void FileInfo()
         {
-            throw new NotImplementedException();
+            var files = _repository.From<FileStorageDBEntity>().ToList();
+            var file = _repository.GetById<FileStorageDBEntity>(1);
+            _repository.Delete<FileStorageDBEntity>(1);
+
+            //add
+            var newFile = new FileStorageDBEntity
+            {
+                CreationDate = DateTime.Now,
+                DownloadsNumber = 1,
+                Extension = ".exe",
+                Name = "FileName"
+            };
+            _repository.Save<FileStorageDBEntity>(newFile);
+
+            //edit
+            file.Name = "FileName1";
+            _repository.Save<FileStorageDBEntity>(file);
         }
 
         public override void FileMove()
