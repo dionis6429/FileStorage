@@ -3,13 +3,18 @@ using FileStorage.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using FileStorage.Data.Repositories;
+using FileStorage.Core.Models;
 
 namespace FileStorage.Core.Services
 {
     public class DbMetaFileService : BaseStorageService
     {
-        private readonly IRepository<FileStorageDBEntity> _repository;
-        public DbMetaFileService(IRepository<FileStorageDBEntity> repository)
+        private readonly IRepository _repository;
+        public DbMetaFileService(
+            ContainerForCommand containerForCommand,
+            MetaFileInfoSettings metaFileInfoSettings, 
+            IRepository repository) : base(containerForCommand, metaFileInfoSettings)
         {
             _repository = repository;
         }
