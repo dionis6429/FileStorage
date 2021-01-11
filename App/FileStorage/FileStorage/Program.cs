@@ -90,7 +90,7 @@ namespace FileStorage.UI
                 {
                     new FileStorageService(containerForCommand, metaFileInfoSettings),
                     //new MetaFileStorageService(containerForCommand, metaFileInfoSettings, _metaFileInfoSerializerService, _authenticationService)
-                    new DbMetaFileService(containerForCommand, metaFileInfoSettings, _repository)
+                    new DbMetaFileService(containerForCommand, metaFileInfoSettings, _repository, _authenticationService)
                 };
 
                 try

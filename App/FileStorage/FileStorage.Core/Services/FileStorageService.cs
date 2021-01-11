@@ -50,16 +50,17 @@ namespace FileStorage.Core.Services
 
         public override void FileMove()
         {
-            if (string.IsNullOrEmpty(ContainerForCommand.To)) throw new ArgumentException($"Invalid argument {ContainerForCommand.To}");
+            if (string.IsNullOrEmpty(MetaFileInfoSettings.Path + ContainerForCommand.To)) throw new ArgumentException($"Invalid argument {ContainerForCommand.To}");
 
-            if (File.Exists(ContainerForCommand.To)) throw new ArgumentException($"File {ContainerForCommand.To} exists");
+            if (File.Exists(MetaFileInfoSettings.Path + ContainerForCommand.To)) throw new ArgumentException($"File {ContainerForCommand.To} exists");
 
-            if (!File.Exists(ContainerForCommand.From)) throw new FileNotFoundException($"File {ContainerForCommand.From} was not found");
+            if (!File.Exists(MetaFileInfoSettings.Path + ContainerForCommand.From)) throw new FileNotFoundException($"File {ContainerForCommand.From} was not found");
 
-            var metaFileInfoEntity = new MetaFileInfoEntity(ContainerForCommand.From);
-            string path = $"{metaFileInfoEntity.Name}";
+            var metaFileInfoEntity = new MetaFileInfoEntity(MetaFileInfoSettings.Path + ContainerForCommand.From);
             metaFileInfoEntity.Name = ContainerForCommand.To;
-            string newPath = $"{MetaFileInfoSettings.Path}{MetaFileInfoSettings.Name}";
+            metaFileInfoEntity.Extension = Path.GetExtension(MetaFileInfoSettings.Path + ContainerForCommand.To);
+            string path = $"{metaFileInfoEntity.Location}";
+            string newPath = $"{MetaFileInfoSettings.Path}{metaFileInfoEntity.Name}";
             FileInfo fileInf = new FileInfo(path);
             if (fileInf.Exists)
             {
