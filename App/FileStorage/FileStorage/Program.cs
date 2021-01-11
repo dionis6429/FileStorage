@@ -6,7 +6,9 @@ using FileStorage.Core.Models;
 using FileStorage.Core.Services;
 using FileStorage.Core.Services.Interfaces;
 using FileStorage.Core.Shared;
+using FileStorage.Data.Database;
 using FileStorage.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -149,7 +151,8 @@ namespace FileStorage.UI
                                     .AddScoped<IMetaFileInfoSerializerService, MetaFileInfoSerializerService>()
                                     .AddScoped<IParsingService, ParsingService>()
                                     .AddScoped<ILoggerService, FileLoggerService>()
-                                     .AddScoped<IRepository, Repository>()
+                                    .AddTransient<FileStorageDbContext>()
+                                    .AddScoped<IRepository, Repository>()
                                     .BuildServiceProvider();
         }
     }
